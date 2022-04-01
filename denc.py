@@ -8,8 +8,8 @@ import threading
 
 args = sys.argv
 
-default_key = b'\xc2\xaa\xe8\xd3\xdfE\x19b\t-KK\xbf\x1cU\xae\xc6\x04+Ae,\x00R\xe7\xb5\x8c.\x05\xf2\xb3\x06'
-nonce = b'\n\x19\xbb\xd1WL\xc1\xa2W\x10j\x8a\xc9{\xa6(\x9b\x00\nnm\xb9+\xcd'
+default_key = b'(\xb7c\x14\xb0`\xc5\xbe\xf0\\O~ac\xd6_a\xcc\xcc\xe6g\xdf*w\x97\xec\x92M]\xff\xf5\x95'   #32 bytes for AES256
+nonce = b'\x9a\x1a\x12\x92\x10\xc6\xca=\xc4J\x15\xf5;\x9d\xfc\x17x\xf3\xe7\xf1$\x8cR\xce'   #24 Bytes for AES256
 
 aes = AESGCM(default_key)
 
@@ -40,8 +40,7 @@ def encrypt(plain_text, auth):
     return aes.encrypt(nonce, plain_text, auth)
 
 
-def dir_enc(DR, auth):
-    DIR = DR
+def dir_enc(DIR, auth):
     listFiles = os.listdir(DIR)
 
     for file in listFiles:
@@ -59,8 +58,7 @@ def dir_enc(DR, auth):
                 dir_enc(f"{DIR}{file}/", auth)
 
 
-def dir_dec(DR, auth):
-    DIR = DR
+def dir_dec(DIR, auth):
     listFiles = os.listdir(DIR)
 
     for file in listFiles:
@@ -99,7 +97,8 @@ else:
 
 if(args[1] == "-e" or args[1] == "--encrypt"):
     password = getpass.getpass(
-        prompt="Enter password to encrypt directory >> ").encode()
+    prompt="Enter password to encrypt directory >> ").encode()
+    #The auth needs to be 64 Bytes for AES256
     crypto_auth = hashlib.sha3_512(password).digest()
 
     enc_thread = threading.Thread(target=dir_enc, args=(args[2], crypto_auth))
