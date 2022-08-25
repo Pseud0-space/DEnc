@@ -1,4 +1,4 @@
-# DEnc
+# Denc
 Directory encryption with AES-GCM
 
 ## Overview
