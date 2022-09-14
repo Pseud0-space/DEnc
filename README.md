@@ -10,7 +10,7 @@ The key and nonce size decide whether its AES256, AES192, AES128.
 python denc.py -e [path]
 
 #### Decrypt a directory
-python denc.py -e [path]
+python denc.py -d [path]
 
 #### Using a custome key
 python denc.py -e/-d [path] -k/--key [key]
